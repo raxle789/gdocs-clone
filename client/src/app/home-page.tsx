@@ -1,8 +1,8 @@
 "use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-// import { Image } from "next/image";
 import {
   Card,
   CardContent,
@@ -11,14 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import cover from "../../public/assets/text-cover.jpg";
 import Image from "next/image";
-import {
-  PopupSignIn,
-  RedirectSignIn,
-  // auth,
-} from "@/utils/firebase/firebase.util";
-import { getRedirectResult, getAuth, onAuthStateChanged } from "firebase/auth";
+import { PopupSignIn } from "@/utils/firebase/firebase.util";
 import Cookies from "js-cookie";
 import { getUserDataFromCookies } from "@/utils/authentication";
 
@@ -42,12 +36,10 @@ export default function HomePage() {
           email: data.email,
           displayName: data.displayName,
         };
-        // setUserData(userSigned);
         console.log("data: ", data);
-        // Simpan data pengguna ke dalam cookie
         Cookies.set("syncwrite-userData", JSON.stringify(userSigned), {
           expires: 3,
-        }); // Cookie disimpan selama 3 hari
+        });
         console.log("cookies created");
         router.push("/my-documents");
       }
@@ -56,130 +48,6 @@ export default function HomePage() {
     }
   };
 
-  const handleSignInRedirect = async () => {
-    console.log("handle redirect");
-    try {
-      await RedirectSignIn();
-      console.log("redirect");
-      const auth = getAuth();
-      console.log("auth sudah");
-      const response = await getRedirectResult(auth);
-      console.log(response);
-      if (response) {
-        const data = response.user;
-        const userSigned: TUserData = {
-          uid: data.uid,
-          email: data.email,
-          displayName: data.displayName,
-        };
-        // setUserData(userSigned);
-        console.log("data: ", data);
-        // Simpan data pengguna ke dalam cookie
-        Cookies.set("syncwrite-userData", JSON.stringify(userSigned), {
-          expires: 3,
-        }); // Cookie disimpan selama 3 hari
-        console.log("cookies created");
-        router.push("/my-documents");
-      }
-    } catch (error) {
-      console.log("Error sign in: ", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   const fetchSignInResult = async () => {
-  //     const auth = getAuth();
-  //     try {
-  //       const result = await getRedirectResult(auth);
-  //       if (result) {
-  //         const user = result.user;
-  //         console.log("User info: ", user);
-  //         // Lakukan sesuatu dengan informasi pengguna, misalnya menyimpan dalam state atau context
-  //         setUserId(user.uid);
-  //         router.push("/my-documents");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during sign-in: ", error);
-  //     }
-  //   };
-  //   fetchSignInResult();
-  // }, [router]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const auth = getAuth();
-  //       console.log("auth sudah");
-  //       // const response = await getRedirectResult(auth);
-  //       // console.log(response);
-  //       getRedirectResult(auth)
-  //         .then((result) => {
-  //           if (result) {
-  //             const user = result.user;
-  //             console.log("User info: ", user);
-  //             // Lakukan sesuatu dengan informasi pengguna, misalnya menyimpan dalam state atau context
-  //             // router.push("/my-documents");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error during sign-in: ", error);
-  //         });
-  //       // if (response) {
-  //       //   const data = response.user;
-  //       //   const userSigned: TUserData = {
-  //       //     uid: data.uid,
-  //       //     email: data.email,
-  //       //     displayName: data.displayName,
-  //       //   };
-  //       //   // setUserData(userSigned);
-  //       //   console.log("data: ", data);
-  //       //   // Simpan data pengguna ke dalam cookie
-  //       //   Cookies.set("syncwrite-userData", JSON.stringify(userSigned), {
-  //       //     expires: 3,
-  //       //   }); // Cookie disimpan selama 3 hari
-  //       //   console.log("cookies created");
-  //       //   router.push("/my-documents");
-  //       // }
-  //     } catch (error) {
-  //       console.error("Error during sign-in: ", error);
-  //     }
-  //   };
-
-  //   console.log("masuk use Effect redirect");
-  //   fetchData();
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("masuk unsubsribe");
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       // User is signed in
-  //       const userSigned = {
-  //         uid: user.uid,
-  //         email: user.email,
-  //         displayName: user.displayName,
-  //       };
-
-  //       console.log("User signed in: ", userSigned);
-
-  //       // Simpan data pengguna ke dalam cookie
-  //       Cookies.set("syncwrite-userData", JSON.stringify(userSigned), {
-  //         expires: 3,
-  //       });
-
-  //       console.log("Cookies created.");
-  //       router.push("/my-documents");
-  //     } else {
-  //       // User is signed out
-  //       console.log("No user signed in.");
-  //     }
-  //   });
-
-  //   // Clean up subscription on unmount
-  //   return () => unsubscribe();
-  // }, []);
-
-  // Handle decision if the user is loged or not
   useEffect(() => {
     const user = getUserDataFromCookies();
     if (user) {
@@ -190,14 +58,11 @@ export default function HomePage() {
   }, []);
   return (
     <main className="home-container min-h-dvh flex flex-wrap items-center justify-around bg-coolGray">
-      <div className="vertical-text fixed left-0 top-1/2 transform -translate-y-1/2 text-xs italic z-10">
-        Dans le jardin secret, les roses murmurent des rêves doux au vent.
+      <div className="vertical-text fixed left-0 top-1/2 transform -translate-y-1/2 text-xs italic z-10 hidden lg:block">
+        Chaque instant est un rêve tissé de lumière et d&apos;ombre.
       </div>
-      {/* <div className="fixed left-0 top-0 h-screen w-[40%] bg-zinc-50">
-        <Image className="object-cover" src={cover} alt="cover" />
-      </div> */}
 
-      <div className="z-10">
+      <div className="z-10 mt-[15vh] product-name-container">
         <h1 className="font-bold text-center text-5xl mb-3">
           <span className="font-bold text-blue-500">/ </span>SyncWrite
         </h1>
@@ -239,18 +104,10 @@ export default function HomePage() {
         </Card>
       </div>
 
-      {/* <div className="relative">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam,
-          mollitia incidunt. Ratione ea laudantium consectetur eligendi, ad quas
-          cupiditate veniam?
-        </p>
-      </div> */}
-      <div className="absolute w-full h-[15%] bottom-0 left-0 p-4 z-10">
+      <div className="hidden absolute w-full h-[15%] bottom-0 left-0 p-4 z-10 xl:block">
         <div className="w-full h-full bg-background rounded-2xl shadow-2xl flex items-center justify-center">
-          {/* <div className="flex items-center justify-center"> */}
           <div className="w-full flex items-center">
-            <div className="flex items-center w-1/2">
+            <div className="flex items-center tagline-container">
               <h3 className="font-bold text-2xl px-12">Create</h3>
               <h3 className="font-bold text-2xl px-12">Sync</h3>
               <h3 className="font-bold text-2xl px-12">Collaborate</h3>
@@ -262,7 +119,6 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          {/* </div> */}
         </div>
       </div>
     </main>

@@ -1,9 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import SyncWriteLogo from "../../../../public/assets/logo/SyncWriteLogo.png";
+import SyncWriteLogo from "../../../../public/assets/logo/logo.png";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -68,6 +69,7 @@ import {
   deleteDoc,
 } from "@/utils/user";
 import { v4 as uuidv4 } from "uuid";
+// import docLogo from "../../public/assets/logo/logo.png";
 
 const FormSchema = z.object({
   fullname: z.string().min(2, {

@@ -1,11 +1,10 @@
 "use client";
+
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-// import TextEditor from "@/components/text-editor";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-// import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
